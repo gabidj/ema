@@ -56,6 +56,7 @@ $zendLoader = Zend_Loader_Autoloader::getInstance();
 $zendLoader->registerNamespace('Dot_');
 $zendLoader->registerNamespace('Api_');
 $zendLoader->registerNamespace('Plugin_');
+$zendLoader->registerNamespace('Ema_');
 
 // Create registry object, as read-only object to store there config, settings, and database
 $registry = Dot_Kernel::initializeRegistry();

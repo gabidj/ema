@@ -17,6 +17,8 @@ if(!isset($registry))
 	exit;
 }
 
+$requestMethod = '';
+
 switch ($registry->action)
 {
 	case 'version':
@@ -30,6 +32,28 @@ switch ($registry->action)
 	case 'opcache':
 		$opCacheModel = new Api_Model_OpCache();
 		echo $opCacheModel->opCacheStatus();
+	break;
+
+    case 'ema':
+	case 'get':
+	case 'getCollection':
+	case 'post':
+	case 'put':
+    case 'putCollection':
+	case 'patch':
+    case 'patchCollection':
+    case 'delete':
+    case 'deleteCollection':
+        $data = array();
+        $data['result'] = 'error';
+        $data['response'] =  "[api-ema] could not parse the given parameters";
+        $data['code'] = 400;
+        $response = $data;
+        $ema = new Ema_Controller_EmaController(new Ema_ConfigProvider(), $registry);
+        $response = $ema($data);
+        Api_Model_Header::setHeaderByCode($response['code']);
+        echo Zend_Json::encode($response);
+        exit;
 	break;
 
 	default:
